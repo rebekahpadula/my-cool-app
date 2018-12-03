@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import firebase from 'firebase';
 
 class App extends Component {
   
@@ -23,6 +24,7 @@ class App extends Component {
 
     this.createNewOuting = this.createNewOuting.bind(this);
     this.vote = this.vote.bind(this);
+    this.writeInitialData = this.writeInitialData.bind(this);
   }
 
   createNewOuting(newOuting) {
@@ -58,6 +60,28 @@ class App extends Component {
             })
           })
         }
+    }
+
+    writeInitialData() {
+      firebase.database().ref('/').set({
+        outings: this.state
+      })
+    }
+
+    componentDidMount() {
+      // Set the configuration for your app
+      var config = {
+        apiKey: "apiKey",
+        authDomain: "projectId.firebaseapp.com",
+        databaseURL: "https://purple-meerkat.firebaseio.com",
+        storageBucket: "bucket.appspot.com"
+      };
+      firebase.initializeApp(config);
+
+      // Get a reference to the database service
+      var database = firebase.database();
+
+      this.writeInitialData()
     }
 
     componentDidUpdate() {
