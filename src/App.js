@@ -15,7 +15,7 @@ class App extends Component {
           note: 'This is my note',
           date: 'December 15, 2018',
           time: 'ugh',
-          votes: 0,
+          userVoted: false,
           key: 1
         }
       ]
@@ -32,10 +32,9 @@ class App extends Component {
         note: document.getElementById('note').value,
         date: document.getElementById('date').value,
         time: document.getElementById('time').value,
-        votes: 0,
+        userVoted: false,
         key: this.state.outings.length + 1
       }
-      console.log(newOuting);
       
       this.setState({outings: [...this.state.outings, newOuting]});
       document.getElementById('activity').value = '';
@@ -45,8 +44,20 @@ class App extends Component {
       document.getElementById('time').value = '';
     }
 
-    vote(e) {
-      console.log(e.target);
+    vote(key, outing) {
+        if(outing.userVoted === false) {
+          this.setState({
+            outings: this.state.outings.map(outing => {
+              return outing.key === key ? {...outing, userVoted: true} : outing;
+            })
+          })
+        } else {
+          this.setState({
+            outings: this.state.outings.map(outing => {
+              return outing.key === key ? {...outing, userVoted: false} : outing;
+            })
+          })
+        }
     }
 
     componentDidUpdate() {
@@ -57,16 +68,15 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.outings.map(outing => 
-          <div key={DataTransferItem.key}>
-            
+          <div key={this.key}>
             <p>{outing.activity}</p>
             <p>{outing.place}</p>
             <p>{outing.note}</p>
             <p>{outing.date}</p>
             <p>{outing.time}</p>
-            <button onClick={(e) =>
-              this.vote(e)
-            }>Vote for dis: <span>{outing.votes}</span></button>
+            <button onClick={() => this.vote(outing.key, outing)}>
+              Vote for dis: <span>{outing.votes}</span>
+            </button>
           </div>
           )}
           <div className="input-group">
@@ -89,7 +99,9 @@ class App extends Component {
             <label htmlFor="time">Time</label>
             <input type="time" id="time"></input>
           </div>
-          <button onClick={() => this.createNewOuting()}>Create New</button>
+          <button onClick={() => this.createNewOuting()}>
+            Create New
+          </button>
       </div>
     );
   }
