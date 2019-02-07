@@ -1,0 +1,50 @@
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-right: 10px;
+}
+
+.outing {
+    background-color: #eee;
+}
+
+.utilities {
+    border: 1px solid #ccc;
+}
+
+.sign-up {
+    // default is display none
+    &__content {
+        display: none;
+    }
+    // when .sign-up's data attr dialog-exanded is true, set the __content to display block; and button is set to display none
+    &[data-dialog-open="true"] &__content {
+        display: block;
+    }
+
+    &[data-dialog-open="true"] &__content {
+        display: block;
+    }
+
+    &[data-dialog-open="true"] &__button {
+        display: none;
+    }
+}
+
+.sign-in {
+
+    &__content {
+        display: none;
+    }
+
+    &[data-dialog-open="true"] &__content {
+        display: block;
+    }
+
+    &[data-dialog-open="true"] &__button {
+        display: none;
+    }
+}
